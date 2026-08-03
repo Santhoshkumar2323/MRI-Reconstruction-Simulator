@@ -1,0 +1,115 @@
+<svg viewBox="0 0 1300 900" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/>
+    </marker>
+  </defs>
+
+  <rect width="1300" height="900" fill="#0f1117"/>
+
+  <text x="650" y="42" text-anchor="middle" fill="#f5f5f5" font-size="24" font-weight="700">How This App Turns Raw MRI Data Into Images — and What Breaks It</text>
+  <text x="650" y="66" text-anchor="middle" fill="#9ca3af" font-size="13">Each box explains what happens in plain English; the code file is shown underneath</text>
+
+  <!-- Step 1 -->
+  <rect x="450" y="95" width="400" height="60" rx="10" fill="#1e2530" stroke="#3b4252" stroke-width="1.5"/>
+  <text x="650" y="120" text-anchor="middle" fill="#e5e7eb" font-size="14" font-weight="600">Real MRI scan slice loaded</text>
+  <text x="650" y="140" text-anchor="middle" fill="#9ca3af" font-size="11">a 2D matrix of pixel values — app.py</text>
+
+  <line x1="650" y1="155" x2="650" y2="190" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 2 -->
+  <rect x="450" y="190" width="400" height="60" rx="10" fill="#1a2332" stroke="#2f6fed" stroke-width="1.5"/>
+  <text x="650" y="215" text-anchor="middle" fill="#dbeafe" font-size="14" font-weight="600">Convert image → k-space</text>
+  <text x="650" y="235" text-anchor="middle" fill="#93c5fd" font-size="11">the raw frequency data a real scanner actually records — np.fft.fft2()</text>
+
+  <line x1="650" y1="250" x2="650" y2="285" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Step 3 -->
+  <rect x="450" y="285" width="400" height="60" rx="10" fill="#1e2530" stroke="#3b4252" stroke-width="1.5"/>
+  <text x="650" y="310" text-anchor="middle" fill="#e5e7eb" font-size="14" font-weight="600">Add thermal noise to k-space</text>
+  <text x="650" y="330" text-anchor="middle" fill="#9ca3af" font-size="11">mimics real scanner receiver noise — noise.py</text>
+
+  <line x1="650" y1="345" x2="650" y2="380" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Branch point -->
+  <rect x="420" y="380" width="460" height="55" rx="10" fill="#241e30" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="650" y="413" text-anchor="middle" fill="#ede9fe" font-size="14" font-weight="600">User picks one of 3 ways to manipulate this k-space data</text>
+
+  <!-- Branch lines down -->
+  <line x1="500" y1="435" x2="220" y2="480" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="650" y1="435" x2="650" y2="480" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="800" y1="435" x2="1080" y2="480" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Column headers -->
+  <text x="220" y="470" text-anchor="middle" fill="#c4b5fd" font-size="13" font-weight="700">A — K-Space Filters</text>
+  <text x="650" y="470" text-anchor="middle" fill="#c4b5fd" font-size="13" font-weight="700">B — Multi-Coil Merge</text>
+  <text x="1080" y="470" text-anchor="middle" fill="#c4b5fd" font-size="13" font-weight="700">C — Undersampling</text>
+
+  <!-- Branch A -->
+  <rect x="60" y="490" width="320" height="60" rx="10" fill="#1e2530" stroke="#3b4252" stroke-width="1.5"/>
+  <text x="220" y="513" text-anchor="middle" fill="#e5e7eb" font-size="13" font-weight="600">Keep only center of k-space</text>
+  <text x="220" y="532" text-anchor="middle" fill="#9ca3af" font-size="11">blurry image, but full contrast — apply_low_pass()</text>
+
+  <text x="220" y="565" text-anchor="middle" fill="#6b7280" font-size="12" font-style="italic">— or —</text>
+
+  <rect x="60" y="580" width="320" height="60" rx="10" fill="#1e2530" stroke="#3b4252" stroke-width="1.5"/>
+  <text x="220" y="603" text-anchor="middle" fill="#e5e7eb" font-size="13" font-weight="600">Remove center, keep edges</text>
+  <text x="220" y="622" text-anchor="middle" fill="#9ca3af" font-size="11">sharp outlines only, no contrast — apply_high_pass()</text>
+
+  <line x1="220" y1="640" x2="220" y2="675" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="60" y="675" width="320" height="55" rx="10" fill="#1a2332" stroke="#2f6fed" stroke-width="1.5"/>
+  <text x="220" y="700" text-anchor="middle" fill="#dbeafe" font-size="13" font-weight="600">Convert back to image</text>
+  <text x="220" y="719" text-anchor="middle" fill="#93c5fd" font-size="11">inverse FFT — np.fft.ifft2()</text>
+
+  <!-- Branch B -->
+  <rect x="490" y="490" width="320" height="65" rx="10" fill="#1e2530" stroke="#3b4252" stroke-width="1.5"/>
+  <text x="650" y="513" text-anchor="middle" fill="#e5e7eb" font-size="13" font-weight="600">Simulate multiple receiver coils</text>
+  <text x="650" y="530" text-anchor="middle" fill="#9ca3af" font-size="11">placed around the body, each seeing the</text>
+  <text x="650" y="546" text-anchor="middle" fill="#9ca3af" font-size="11">anatomy differently — simulate_coils()</text>
+
+  <line x1="650" y1="555" x2="650" y2="585" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="490" y="585" width="320" height="60" rx="10" fill="#1e2530" stroke="#3b4252" stroke-width="1.5"/>
+  <text x="650" y="608" text-anchor="middle" fill="#e5e7eb" font-size="13" font-weight="600">Combine coil images the naive way</text>
+  <text x="650" y="627" text-anchor="middle" fill="#9ca3af" font-size="11">loses phase info — root_sum_of_squares()</text>
+
+  <text x="650" y="660" text-anchor="middle" fill="#6b7280" font-size="12" font-style="italic">— vs —</text>
+
+  <rect x="490" y="675" width="320" height="65" rx="10" fill="#1a2332" stroke="#2f6fed" stroke-width="1.5"/>
+  <text x="650" y="698" text-anchor="middle" fill="#dbeafe" font-size="13" font-weight="600">Combine coil images the smart way</text>
+  <text x="650" y="715" text-anchor="middle" fill="#93c5fd" font-size="11">recovers true phase, same method real</text>
+  <text x="650" y="731" text-anchor="middle" fill="#93c5fd" font-size="11">scanners use for fast imaging — optimal_combine()</text>
+
+  <!-- Branch C -->
+  <rect x="920" y="490" width="320" height="65" rx="10" fill="#1e2530" stroke="#3b4252" stroke-width="1.5"/>
+  <text x="1080" y="513" text-anchor="middle" fill="#e5e7eb" font-size="13" font-weight="600">Skip most k-space lines to scan faster</text>
+  <text x="1080" y="530" text-anchor="middle" fill="#9ca3af" font-size="11">only keeps every Nth line, plus a safety</text>
+  <text x="1080" y="546" text-anchor="middle" fill="#9ca3af" font-size="11">strip in the center — apply_undersampling()</text>
+
+  <line x1="1080" y1="555" x2="1080" y2="590" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="920" y="590" width="320" height="60" rx="10" fill="#1a2332" stroke="#2f6fed" stroke-width="1.5"/>
+  <text x="1080" y="613" text-anchor="middle" fill="#dbeafe" font-size="13" font-weight="600">Convert back to image</text>
+  <text x="1080" y="632" text-anchor="middle" fill="#93c5fd" font-size="11">inverse FFT — np.fft.ifft2()</text>
+
+  <line x1="1080" y1="650" x2="1080" y2="685" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="920" y="685" width="320" height="60" rx="10" fill="#2a1f1f" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="1080" y="708" text-anchor="middle" fill="#fecaca" font-size="13" font-weight="600">Result: ghosting / aliasing artifacts</text>
+  <text x="1080" y="727" text-anchor="middle" fill="#fca5a5" font-size="11">because data is missing, not properly unfolded</text>
+
+  <!-- Converge lines to end -->
+  <line x1="220" y1="730" x2="220" y2="790" stroke="#4b5563" stroke-width="1.5"/>
+  <line x1="220" y1="790" x2="650" y2="790" stroke="#4b5563" stroke-width="1.5"/>
+  <line x1="650" y1="740" x2="650" y2="790" stroke="#4b5563" stroke-width="1.5"/>
+  <line x1="1080" y1="745" x2="1080" y2="790" stroke="#4b5563" stroke-width="1.5"/>
+  <line x1="1080" y1="790" x2="650" y2="790" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="650" y1="790" x2="650" y2="805" stroke="#4b5563" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Final step -->
+  <rect x="400" y="805" width="500" height="60" rx="10" fill="#1a2332" stroke="#2f6fed" stroke-width="1.5"/>
+  <text x="650" y="830" text-anchor="middle" fill="#dbeafe" font-size="14" font-weight="600">All results shown side-by-side</text>
+  <text x="650" y="850" text-anchor="middle" fill="#93c5fd" font-size="11">raw k-space view vs. final reconstructed image — Streamlit + matplotlib</text>
+
+</svg>

@@ -6,7 +6,7 @@ Built with Streamlit. Operates on real MRI slice data (`.npy` matrices) sourced 
 
 ---
 
-**Try it live →** https://mri-reconstruction-simulator.streamlit.app/
+**[Try it live Here](https://mri-reconstruction-simulator.streamlit.app/)**
 
 
 ## Architecture
